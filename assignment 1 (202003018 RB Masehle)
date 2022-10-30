@@ -1,0 +1,84 @@
+.data
+	count: .word 2  # count onr the c program 
+	n : .word 10 # the constant of the loop
+	i: .word 3 # (i++) print in the end
+.text
+	main:
+	li $t0, 2 #
+	li $t1, 10  #
+	li $s0, 3 #
+	
+	For1:
+	ble $t0, $t1, end  # (count<=10;) $t0 <= $t1
+	add $s0,$s0, 1
+	j	For2 # the first for loop ends	
+	######################################################
+	######################################################
+	######################################################
+	#######################################################
+	
+	 
+	
+	##############################################
+	For2: #the second for loop starts here
+	blt $t2, $s0, end
+	##
+	rem $t0, $s0, $t2  # i % c = rem
+	beq $t0, $zero, end  # i&c = 0 checkiin if remainder is = to 0
+	b 	fin
+	fin:
+	##
+	add $t2,$t2, 1
+	j 	For2  # the second  for loop ends
+	end:
+	##############################################
+	
+	function:
+	#************************************************************
+	#############################################################
+	
+	beq $t2, $s0, end        # if ( c == i)
+	mul $s1, $s0, $s0        # sqr = i * i
+	add $t0, $zero, $zero     # rev = 0
+	add $t1, $s0, $zero       # s = sqr
+	
+	#$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+	W_loop:
+	bne $t1, $zero, exit       # s != 0
+	rem $t2, $t1, 10           # rem = s % 10
+	mul $t0, $t0, 10          # rev * 10
+	add $t0, $t3, $t2          # (rev * 10) + rem
+	add $t1, $t1, 10           # s = s / 10
+	j 	W_loop
+	exit:
+	#$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+	bne $t1, $t0, end
+	add $t1, $zero, 1   # p = 1
+	div $t1, $t0, $t1  
+	mul $t2, $t1, $t1
+	beq $t2, $t0, end    # if( p * p == rev )
+	
+	for3:
+	li $t2, 2          # k loop counter
+	blt $t2, $t1, end  # k < p
+	add $t2, $t2, 1   # k++
+	li $t3, 0     #flag == 0
+	
+	rem $t0, $t1, $t1  #rem = p % k
+	beq $t0, $zero, end_if
+	add $t0, $t3, 1 
+	end_if:
+	
+	beq $t0, $zero, end  
+	move $a0, $s0
+	move $a1, $1
+	j 	For1
+	 
+	  add $s2, $s2, 1 
+	
+	
+	#############################################################
+	#***********************************************************
+	li $v0, 1
+
+	syscall
